@@ -8,7 +8,19 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
 
+        <DataTemplate x:Key="commentStyle">
+            <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,25" Width="340" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Content}" TextWrapping="Wrap" FontSize="15" Foreground="Black"></TextBlock>
+            </Border>
+        </DataTemplate>
+
+    </Page.Resources>
+    
+    <Grid Background="#FFBFBFBF" IsRightTapEnabled="False" IsHoldingEnabled="False" IsTapEnabled="False" IsDoubleTapEnabled="False">
+        <ListView ItemTemplate="{StaticResource commentStyle}" Name="lstComments" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None">
+         
+        </ListView>
     </Grid>
 </Page>
