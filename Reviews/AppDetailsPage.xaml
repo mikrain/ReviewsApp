@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="Reviews.AppDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Reviews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <DataTemplate x:Key="commentStyle">
+            <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,25" Width="340" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Content}" TextWrapping="Wrap" FontSize="15" Foreground="Black"></TextBlock>
+            </Border>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid Background="#FFBFBFBF" IsRightTapEnabled="False" IsHoldingEnabled="False" IsTapEnabled="False" IsDoubleTapEnabled="False">
+        <ListView ItemTemplate="{StaticResource commentStyle}" Name="lstComments" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None">
+
+        </ListView>
+    </Grid>
+</Page>
