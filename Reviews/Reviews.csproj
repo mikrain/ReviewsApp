@@ -88,6 +88,12 @@
     <Compile Include="AppDetailsPage.xaml.cs">
       <DependentUpon>AppDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\BasePage.cs" />
+    <Compile Include="Common\ContinuationManager.cs" />
+    <Compile Include="Common\NavigationHelper.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
