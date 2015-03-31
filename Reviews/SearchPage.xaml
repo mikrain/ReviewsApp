@@ -1,0 +1,79 @@
+﻿<common:BasePage
+    x:Class="Reviews.SearchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Reviews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:Reviews.Common"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <DataTemplate x:Key="SearchResultTemplate">
+            <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,15">
+                <StackPanel Orientation="Vertical" Width="340">
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Title}" FontSize="33.333" Foreground="Black" HorizontalAlignment="Center" Margin="0,0,0,10" TextAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image.Id}" Stretch="None"/>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0">
+                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"  VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,0,0,0">
+                                <Run Text="User Rating Count: "></Run>
+                                <Run Text="{Binding UserRatingCount}"></Run>
+                            </TextBlock>
+                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0">
+                                 <Run Text="Average User Rating: "></Run>
+                                <Run Text="{Binding AverageUserRatingNubmer}"></Run>
+                            </TextBlock>
+                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0">
+                                  <Run Text="Updated: "></Run>
+                                <Run Text="{Binding UpdatedFormatted}"></Run>
+                            </TextBlock>
+                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"  VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0">
+                                <Run Text="Version: "></Run>
+                                <Run Text="{Binding Version}"></Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SearchResultTemplatePseudo">
+            <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,15">
+        		<StackPanel Orientation="Vertical" Width="340">
+            		<TextBlock TextWrapping="Wrap" Text="FilmIt" FontSize="33.333" Foreground="Black" HorizontalAlignment="Center" Margin="0,0,0,10" TextAlignment="Center"/>
+        			<Grid>
+        				<Grid.ColumnDefinitions>
+        					<ColumnDefinition Width="Auto"/>
+        					<ColumnDefinition/>
+        				</Grid.ColumnDefinitions>
+        				<Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="http://cdn.marketplaceimages.windowsphone.com/v8/images/51828e45-d72d-42a9-b9bb-d96a33712c70?imageType=ws_icon_small" Stretch="None" MinWidth="120" MinHeight="120"/>
+        				<StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0">
+        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="User Rating Count: 340" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,0,0,0"/>
+        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Average User Rating: 7.2" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0"/>
+        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Updated: 2015-03-27" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0"/>
+        					<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Version: 1.2.0.1" VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,10,0,0"/>
+        				</StackPanel>
+        			</Grid>
+            	</StackPanel>
+        	</Border>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="#FFBFBFBF">
+        <AutoSuggestBox KeyDown="TxtSuggestion_OnKeyDown" SuggestionChosen="TxtSuggestion_OnSuggestionChosen" PlaceholderText="start typing" TextChanged="TxtSuggestion_OnTextChanged" Name="txtSuggestion"></AutoSuggestBox>
+
+        <ListView ItemClick="LstItems_OnItemClick" ItemTemplate="{StaticResource SearchResultTemplate}" Name="lstItems" Margin="0,80,0,0" HorizontalContentAlignment="Center" IsItemClickEnabled="True">
+            <!--<ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>
+            <ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>
+            <ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>-->
+        </ListView>
+
+    </Grid>
+</common:BasePage>
