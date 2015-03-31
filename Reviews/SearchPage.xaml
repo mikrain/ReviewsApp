@@ -64,12 +64,187 @@
             	</StackPanel>
         	</Border>
         </DataTemplate>
+        <Thickness x:Key="TextControlMarginThemeThickness">0,9.5,0,9.5</Thickness>
+        <Thickness x:Key="AutoSuggestListViewItemMargin">6.5,9.5,0,0</Thickness>
+        <x:Double x:Key="ContentControlFontSize">20.26</x:Double>
+        <Thickness x:Key="TextControlBorderThemeThickness">2.5</Thickness>
+        <x:Double x:Key="TextControlThemeMinWidth">51</x:Double>
+        <x:Double x:Key="TextControlThemeMinHeight">34</x:Double>
+        <FontFamily x:Key="PhoneFontFamilyNormal">Segoe WP</FontFamily>
+        <Thickness x:Key="TextControlThemePadding">7,0.8,8,0</Thickness>
+        <Thickness x:Key="TextControlHeaderMarginThemeThickness">0,0,0,4.8</Thickness>
+        <SolidColorBrush x:Key="TextBoxDisabledBackgroundThemeBrush" Color="Transparent"/>
+        <x:Double x:Key="TextControlBorderThemeOpacity">0.8</x:Double>
+        <Style x:Key="ForPlaceHolder" TargetType="TextBox">
+        	<Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
+        	<Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
+        	<Setter Property="Foreground" Value="{ThemeResource TextBoxForegroundThemeBrush}"/>
+        	<Setter Property="SelectionHighlightColor" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}"/>
+        	<Setter Property="Background" Value="{ThemeResource TextBoxBackgroundThemeBrush}"/>
+        	<Setter Property="BorderBrush" Value="{ThemeResource TextBoxBorderThemeBrush}"/>
+        	<Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
+        	<Setter Property="FontFamily" Value="{ThemeResource PhoneFontFamilyNormal}"/>
+        	<Setter Property="FontSize" Value="{ThemeResource ContentControlFontSize}"/>
+        	<Setter Property="TextWrapping" Value="NoWrap"/>
+        	<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
+        	<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        	<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+        	<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        	<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        	<Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
+        	<Setter Property="Margin" Value="{ThemeResource TextControlMarginThemeThickness}"/>
+        	<Setter Property="VerticalAlignment" Value="Top"/>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="TextBox">
+        				<Grid Background="Transparent">
+        					<Grid.RowDefinitions>
+        						<RowDefinition Height="Auto"/>
+        						<RowDefinition Height="*"/>
+        					</Grid.RowDefinitions>
+        					<VisualStateManager.VisualStateGroups>
+        						<VisualStateGroup x:Name="CommonStates">
+        							<VisualState x:Name="Disabled">
+        								<Storyboard>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BorderElement">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="BorderElement">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextBoxDisabledBorderThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentElement">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextBoxDisabledForegroundThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="HeaderContentPresenter">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextBoxDisabledHeaderForegroundThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        								</Storyboard>
+        							</VisualState>
+        							<VisualState x:Name="Normal">
+        								<Storyboard>
+        									<DoubleAnimation Duration="0" To="{ThemeResource TextControlBorderThemeOpacity}" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BorderElement"/>
+        								</Storyboard>
+        							</VisualState>
+        							<VisualState x:Name="Focused">
+        								<Storyboard>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="BorderElement">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextSelectionHighlightColorThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PlaceholderTextContentPresenter"/>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="BorderElement">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextBoxFocusedBackgroundThemeBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        								</Storyboard>
+        							</VisualState>
+        						</VisualStateGroup>
+        					</VisualStateManager.VisualStateGroups>
+        					<Border x:Name="BorderElement" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Row="1" CornerRadius="5"/>
+        					<ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Margin="{ThemeResource TextControlHeaderMarginThemeThickness}" Grid.Row="0" Style="{StaticResource HeaderContentPresenterStyle}"/>
+        					<ScrollViewer x:Name="ContentElement" AutomationProperties.AccessibilityView="Raw" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsTabStop="False" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" Margin="{TemplateBinding BorderThickness}" MinHeight="{ThemeResource TextControlThemeMinHeight}" Padding="{TemplateBinding Padding}" Grid.Row="1" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="Disabled"/>
+        					<ContentControl x:Name="PlaceholderTextContentPresenter" Content="{TemplateBinding PlaceholderText}" FontSize="{ThemeResource ContentControlFontSize}" IsTabStop="False" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" HorizontalAlignment="Center" FontWeight="Medium" Foreground="#FF838383"/>
+        				</Grid>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <Style x:Key="AutoSuggestBoxStyle1" TargetType="AutoSuggestBox">
+        	<Setter Property="Margin" Value="{ThemeResource TextControlMarginThemeThickness}"/>
+        	<Setter Property="VerticalAlignment" Value="Top"/>
+        	<Setter Property="IsTabStop" Value="False"/>
+        	<Setter Property="ItemContainerStyle">
+        		<Setter.Value>
+        			<Style TargetType="ListViewItem">
+        				<Setter Property="Margin" Value="{ThemeResource AutoSuggestListViewItemMargin}"/>
+        				<Setter Property="FontSize" Value="{ThemeResource ContentControlFontSize}"/>
+        				<Setter Property="Foreground" Value="{ThemeResource TextBoxForegroundThemeBrush}"/>
+        			</Style>
+        		</Setter.Value>
+        	</Setter>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="AutoSuggestBox">
+        				<Grid>
+        					<VisualStateManager.VisualStateGroups>
+        						<VisualStateGroup x:Name="Orientation">
+        							<VisualState x:Name="Landscape"/>
+        							<VisualState x:Name="Portrait"/>
+        						</VisualStateGroup>
+        					</VisualStateManager.VisualStateGroups>
+        					<TextBox x:Name="TextBox" ScrollViewer.BringIntoViewOnFocusChange="False" Header="{Binding Header, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="0" PlaceholderText="{Binding PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="{TemplateBinding Width}" Canvas.ZIndex="0" Style="{StaticResource ForPlaceHolder}"/>
+        					<Popup x:Name="SuggestionsPopup">
+        						<Border x:Name="SuggestionsContainer" BorderBrush="{ThemeResource PhoneAccentBrush}" BorderThickness="{ThemeResource TextControlBorderThemeThickness}" Background="{ThemeResource AutoSuggestBackgroundThemeBrush}">
+        							<Border.RenderTransform>
+        								<TranslateTransform x:Name="UpwardTransform"/>
+        							</Border.RenderTransform>
+        							<ListView x:Name="SuggestionsList" ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource Mode=TemplatedParent}}" ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=TemplatedParent}}" ItemContainerStyle="{Binding ItemContainerStyle, RelativeSource={RelativeSource Mode=TemplatedParent}}" ItemTemplateSelector="{Binding ItemTemplateSelector, RelativeSource={RelativeSource Mode=TemplatedParent}}" RenderTransformOrigin=".5,.5">
+        								<ListView.RenderTransform>
+        									<ScaleTransform x:Name="ListItemOrderTransform"/>
+        								</ListView.RenderTransform>
+        							</ListView>
+        						</Border>
+        					</Popup>
+        				</Grid>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <Style x:Key="ListViewStyle1" TargetType="ListView">
+        	<Setter Property="IsTabStop" Value="False"/>
+        	<Setter Property="TabNavigation" Value="Once"/>
+        	<Setter Property="IsSwipeEnabled" Value="True"/>
+        	<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        	<Setter Property="VerticalContentAlignment" Value="Top"/>
+        	<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        	<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        	<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+        	<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+        	<Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+        	<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+        	<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+        	<Setter Property="ItemContainerTransitions">
+        		<Setter.Value>
+        			<TransitionCollection>
+        				<AddDeleteThemeTransition/>
+        				<ReorderThemeTransition/>
+        			</TransitionCollection>
+        		</Setter.Value>
+        	</Setter>
+        	<Setter Property="ItemsPanel">
+        		<Setter.Value>
+        			<ItemsPanelTemplate>
+        				<ItemsStackPanel Orientation="Vertical"/>
+        			</ItemsPanelTemplate>
+        		</Setter.Value>
+        	</Setter>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="ListView">
+        				<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="0,60,0,0">
+        					<ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+        						<ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        					</ScrollViewer>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
     </Page.Resources>
 
     <Grid Background="#FFBFBFBF">
-        <AutoSuggestBox KeyDown="TxtSuggestion_OnKeyDown" SuggestionChosen="TxtSuggestion_OnSuggestionChosen" PlaceholderText="start typing" TextChanged="TxtSuggestion_OnTextChanged" Name="txtSuggestion"></AutoSuggestBox>
 
-        <ListView ItemClick="LstItems_OnItemClick" ItemTemplate="{StaticResource SearchResultTemplate}" Name="lstItems" Margin="0,80,0,0" HorizontalContentAlignment="Center" IsItemClickEnabled="True">
+        <Border Padding="5,20" VerticalAlignment="Top">
+        	<Border.Background>
+        		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        			<GradientStop Color="Black" Offset="0"/>
+        			<GradientStop Color="#004B4B4B" Offset="1"/>
+        			<GradientStop Color="#65131313" Offset="0.67"/>
+        		</LinearGradientBrush>
+        	</Border.Background>
+    		<AutoSuggestBox Loaded="TxtSuggestion_OnLoaded" KeyDown="TxtSuggestion_OnKeyDown" SuggestionChosen="TxtSuggestion_OnSuggestionChosen" PlaceholderText="start typing" TextChanged="TxtSuggestion_OnTextChanged" x:Name="txtSuggestion" Height="39" Margin="0" Style="{StaticResource AutoSuggestBoxStyle1}"/>
+
+    	</Border>
+
+        <ListView ItemClick="LstItems_OnItemClick" ItemTemplate="{StaticResource SearchResultTemplate}" x:Name="lstItems" Margin="0" HorizontalContentAlignment="Center" IsItemClickEnabled="True" Style="{StaticResource ListViewStyle1}" Padding="0,20,0,0">
             <!--<ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>
             <ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>
             <ListViewItem ContentTemplate="{StaticResource SearchResultTemplatePseudo}"/>-->

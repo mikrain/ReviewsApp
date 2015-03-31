@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -40,8 +41,9 @@ namespace Reviews
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            await StatusBar.GetForCurrentView().HideAsync();
             if (e.Parameter != null) GetAppDetails(e.Parameter.ToString());
             base.OnNavigatedTo(e);
         }
@@ -85,7 +87,7 @@ namespace Reviews
             }
 
             await Task.WhenAll(tasks);
-            lstComments.ItemsSource = comments.OrderBy(entry => entry.Updated);
+            lstComments.ItemsSource = comments.OrderByDescending(entry => entry.Updated);
         }
 
         protected override void NavigationHelper_LoadState(object sender, CinelabWP8_1.Common.LoadStateEventArgs e)

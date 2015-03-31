@@ -46,15 +46,20 @@ namespace Reviews
                 try
                 {
                     var asf = await _client.GetStringAsync(
-                        string.Format("http://cdn.marketplaceedgeservice.windowsphone.com/v8/catalog/queries?os=8.10.14219.0&zLocale=EN-CA&cc=US&lang=en-US&prefix={0}&chunksize=4&includeApplications=true&includeAlbums=fal", txtSuggestion.Text));
+                        string.Format(
+                            "http://cdn.marketplaceedgeservice.windowsphone.com/v8/catalog/queries?os=8.10.14219.0&zLocale=EN-CA&cc=US&lang=en-US&prefix={0}&chunksize=4&includeApplications=true&includeAlbums=fal",
+                            txtSuggestion.Text));
                     var doc = XDocument.Parse(asf);
-                    XmlSerializer serializer = new XmlSerializer(typeof(QueryResult));
-                    var feed = (QueryResult)serializer.Deserialize(doc.CreateReader());
+                    XmlSerializer serializer = new XmlSerializer(typeof (QueryResult));
+                    var feed = (QueryResult) serializer.Deserialize(doc.CreateReader());
                     txtSuggestion.ItemsSource = feed.Entry.Select(entry => entry.Title);
                 }
                 catch (TaskCanceledException)
                 {
 
+                }
+                catch 
+                {
                 }
             }
             else
@@ -113,7 +118,12 @@ namespace Reviews
 
         protected override bool ChildAllowedToExit(Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            return true;
+            return false;
+        }
+
+        private void TxtSuggestion_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            (sender as Control).Focus(FocusState.Keyboard);
         }
     }
 }

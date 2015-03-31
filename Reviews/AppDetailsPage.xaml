@@ -12,15 +12,57 @@
     <Page.Resources>
 
         <DataTemplate x:Key="commentStyle">
-            <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,25" Width="340" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Content}" TextWrapping="Wrap" FontSize="15" Foreground="Black"></TextBlock>
-            </Border>
+			 <StackPanel Orientation="Vertical" Width="340" Margin="0,15,0,0">
+                <TextBlock TextWrapping="Wrap"  FontSize="17.333" FontWeight="SemiBold" Margin="0,0,0,5" Foreground="Black">
+                    <Run Text="{Binding Author.Name}"></Run>
+                    <Run Text=":"></Run>
+                </TextBlock>
+            	<Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="0,5,10,5" Background="#0C000000">
+            		<StackPanel Orientation="Vertical">
+                        <TextBlock TextWrapping="Wrap" FontSize="15" Foreground="Black"  VerticalAlignment="Top" Margin="50,5,0,0">
+                            <Run Text="&quot;"></Run>
+                            <Run Text="{Binding Content}"></Run>
+                            <Run Text="&quot;"></Run>
+                        </TextBlock>
+            			<Grid Margin="10,10,0,0">
+                            <TextBlock TextWrapping="Wrap" FontSize="13.333" Foreground="Black" Margin="0" HorizontalAlignment="Left">
+                                <Run Text="rate: "></Run>
+                                <Run Text="{Binding AverageUserRatingNubmer}"></Run>
+                                <Run Text=" stars"></Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding UpdatedFormatted}" FontSize="13.333"  Foreground="Black" Margin="0" HorizontalAlignment="Right"/>
+            			</Grid>
+            		</StackPanel>
+            	</Border>
+		   	</StackPanel>
+
         </DataTemplate>
+
+		   <DataTemplate x:Key="commentStylePseudo">
+            <StackPanel Orientation="Vertical" Width="340" Margin="0,50,0,0">
+		   		<TextBlock TextWrapping="Wrap" Text="mikrain said:" FontSize="17.333" FontWeight="Bold" Margin="10,0,0,0" Foreground="Black"/>
+            	<Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="0,5,10,5" Background="#0C000000">
+            		<StackPanel Orientation="Vertical">
+            			<TextBlock TextWrapping="Wrap" FontSize="15" Foreground="Black" Text="&quot;this app is sucks&quot;" VerticalAlignment="Top" Margin="50,0,0,0"/>
+            			<Grid Margin="10,10,0,0">
+            				<TextBlock TextWrapping="Wrap" Text="rate: 4 stars" FontSize="13.333" FontWeight="Bold" Foreground="Black" Margin="0" HorizontalAlignment="Left"/>
+            				<TextBlock TextWrapping="Wrap" Text="21/23/15" FontSize="13.333" FontWeight="Bold" Foreground="Black" Margin="0" HorizontalAlignment="Right"/>
+            			</Grid>
+            		</StackPanel>
+            	</Border>
+		   	</StackPanel>
+        </DataTemplate>
+
 
     </Page.Resources>
 
     <Grid Background="#FFBFBFBF" IsRightTapEnabled="False" IsHoldingEnabled="False" IsTapEnabled="False" IsDoubleTapEnabled="False">
-        <ListView ItemTemplate="{StaticResource commentStyle}" Name="lstComments" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None">
+        <ListView ItemTemplate="{StaticResource commentStyle}" Name="lstComments" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None" HorizontalAlignment="Center">
+        	<!--<ListViewItem ContentTemplate="{StaticResource commentStylePseudo}"/>
+        	<ListViewItem ContentTemplate="{StaticResource commentStyle}"/>
+        	<ListViewItem ContentTemplate="{StaticResource commentStyle}"/>
+        	<ListViewItem ContentTemplate="{StaticResource commentStyle}"/>
+        	<ListViewItem ContentTemplate="{StaticResource commentStyle}"/>-->
 
         </ListView>
     </Grid>

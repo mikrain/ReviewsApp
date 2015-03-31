@@ -31,6 +31,16 @@ namespace Reviews
             }
         }
 
+        public double AverageUserRatingNubmer
+        {
+            get { return Math.Round(double.Parse(UserRating) / 2, 1); }
+        }
+
+        public string UpdatedFormatted
+        {
+            get { return Updated.ToString("d"); }
+        }
+
         [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://schemas.zune.net/catalog/apps/2008/02", ElementName = "averageUserRating")]
         public string AverageUserRating { get; set; }
 

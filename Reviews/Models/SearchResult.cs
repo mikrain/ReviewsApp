@@ -36,7 +36,7 @@ namespace Reviews
 
         public double AverageUserRatingNubmer
         {
-            get { return Math.Round(double.Parse(AverageUserRating), 1); }
+            get { return Math.Round(double.Parse(AverageUserRating)/2, 1); }
         }
 
         public string UpdatedFormatted

@@ -12,6 +12,7 @@ using Windows.ApplicationModel.Store;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +32,7 @@ namespace Reviews
     {
         public MainPage()
         {
+
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
@@ -53,8 +55,13 @@ namespace Reviews
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-
+            await StatusBar.GetForCurrentView().HideAsync();
         }
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var frame = Window.Current.Content as Frame;
+            if (frame != null) frame.Navigate(typeof(SearchPage));
+        }
     }
 }
