@@ -13,7 +13,8 @@ namespace Reviews.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null || (value as IList).Count == 0){
+            if (value == null || (int)value == 0)
+            {
                 return Visibility.Visible;
             }
             return Visibility.Collapsed;

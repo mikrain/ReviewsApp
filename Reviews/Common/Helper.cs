@@ -15,59 +15,84 @@ namespace Reviews.Common
         public const string PROJECT_FOLDER = "Reviews";
         public const string PINNED = "Pinned";
         public const string RECENT = "Recent";
-        public static ObservableCollection<Entry> RecentApps = new ObservableCollection<Entry>();
-        public static ObservableCollection<Entry> PinnedApps = new ObservableCollection<Entry>();
+        private static ObservableCollection<Entry> _recentApps = new ObservableCollection<Entry>();
+        private static ObservableCollection<Entry> _pinnedApps = new ObservableCollection<Entry>();
+
+        public static ObservableCollection<Entry> RecentApps
+        {
+            get { return _recentApps; }
+        }
+
+        public static ObservableCollection<Entry> PinnedApps
+        {
+            get { return _pinnedApps; }
+        }
 
         private static async void SavePinned()
         {
-            await SaveProject(PINNED, PinnedApps, CreationCollisionOption.ReplaceExisting);
+            await SaveProject(PINNED, _pinnedApps.ToList(), CreationCollisionOption.ReplaceExisting);
         }
 
         private static async void SaveRecent()
         {
-            await SaveProject(RECENT, RecentApps, CreationCollisionOption.ReplaceExisting);
+            await SaveProject(RECENT, _recentApps.ToList(), CreationCollisionOption.ReplaceExisting);
         }
 
         public async static Task<ObservableCollection<Entry>> OpenRecent()
         {
             var openedProject = await OpenProject(RECENT);
-            if (openedProject != null) RecentApps = openedProject;
-            return RecentApps;
+            if (openedProject != null)
+            {
+                _recentApps.Clear();
+                foreach (var entry in openedProject)
+                {
+                    _recentApps.Add(entry);
+                }
+
+            }
+            return _recentApps;
         }
 
         public async static Task<ObservableCollection<Entry>> OpenPinned()
         {
             var openedProject = await OpenProject(PINNED);
-            if (openedProject != null) PinnedApps = openedProject;
-            return PinnedApps;
+            if (openedProject != null)
+            {
+                _pinnedApps.Clear();
+                foreach (var entry in openedProject)
+                {
+                    _pinnedApps.Add(entry);
+                }
+            }
+            return _pinnedApps;
         }
 
         internal static void AddRecentApp(Entry entry)
         {
-            if (RecentApps.Count > 5) RecentApps.RemoveAt(RecentApps.Count - 1);
-            RecentApps.Insert(0, entry);
+            if (_recentApps.Count > 5) _recentApps.RemoveAt(_recentApps.Count - 1);
+            _recentApps.Insert(0, entry);
             SaveRecent();
         }
 
         internal static void AddPinnedApp(Entry entry)
         {
-            PinnedApps.Insert(0, entry);
+            _pinnedApps.Insert(0, entry);
             SavePinned();
         }
 
         internal static void RemoveRecentApp(Entry entry)
         {
-            RecentApps.Remove(entry);
+            _recentApps.Remove(entry);
             SaveRecent();
         }
 
         internal static void RemovePinnedApp(Entry entry)
         {
-            PinnedApps.Remove(entry);
+            _pinnedApps.Remove(entry);
             SavePinned();
         }
 
-        private static async Task<ObservableCollection<Entry>> OpenProject(string name)
+        private static async Task<List<Entry>> OpenProject(string name)
         {
             return await Task.Run(async () =>
             {
@@ -85,7 +110,7 @@ namespace Reviews.Common
                                 XmlSerializer serializer = new XmlSerializer(typeof(List<Entry>));
                                 using (var outStream = stream.AsStreamForWrite())
                                 {
-                                    return (ObservableCollection<Entry>)serializer.Deserialize(outStream);
+                                    return (List<Entry>)serializer.Deserialize(outStream);
                                 }
                             }
                         }
@@ -101,7 +126,7 @@ namespace Reviews.Common
             });
         }
 
-        private static async Task SaveProject(string name, ObservableCollection<Entry> entries, CreationCollisionOption creationCollisionOption)
+        private static async Task SaveProject(string name, List<Entry> entries, CreationCollisionOption creationCollisionOption)
         {
             await Task.Run(async () =>
            {
@@ -113,7 +138,7 @@ namespace Reviews.Common
 
                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
                    {
-                       XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Entry>));
+                       XmlSerializer serializer = new XmlSerializer(typeof(List<Entry>));
                        using (var outStream = stream.AsStreamForWrite())
                        {
                            serializer.Serialize(outStream, entries);

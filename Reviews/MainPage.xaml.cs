@@ -52,8 +52,8 @@ namespace Reviews
 
         private async void GetRecentLists()
         {
-            var list= await LocalCacheHelper.OpenRecent();
-            RecentSection.DataContext = list;
+            await LocalCacheHelper.OpenRecent();
+            //RecentSection.DataContext = list;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

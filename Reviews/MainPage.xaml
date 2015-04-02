@@ -5,12 +5,13 @@
     xmlns:local="using:Reviews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:Reviews.Common"
     mc:Ignorable="d" 
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
 
-       
+        <common:LocalCacheHelper x:Key="LocalCacheHelper"/>
 
         <DataTemplate x:Key="commentStyle">
             <Border BorderBrush="#FF424242" BorderThickness="0,0,0,1" Padding="10,25" Width="340" HorizontalAlignment="Center">
@@ -36,8 +37,8 @@
         </DataTemplate>
 
         <DataTemplate x:Key="RecentTemplate">
-            <Grid>
-                <TextBlock  Visibility="{Binding ConverterParameter={Binding Count}, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" x:Name="txtRecent" HorizontalAlignment="Center" TextWrapping="Wrap" Text="no recent apps" VerticalAlignment="Center" FontSize="33.333" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,50" Foreground="#FF838383">
+            <Grid DataContext="{Binding Source={StaticResource LocalCacheHelper},Path=RecentApps}">
+                <TextBlock  Visibility="{Binding Count, Converter={StaticResource VisibilityConverter},UpdateSourceTrigger=PropertyChanged}" x:Name="txtRecent" HorizontalAlignment="Center" TextWrapping="Wrap" Text="no recent apps" VerticalAlignment="Center" FontSize="33.333" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,50" Foreground="#FF838383">
                     <TextBlock.RenderTransform>
                         <CompositeTransform Rotation="-30"/>
                     </TextBlock.RenderTransform>
@@ -57,8 +58,8 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PinnedTemplate">
-            <Grid>
-                <TextBlock Visibility="{Binding ConverterParameter={Binding Count}, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"  Name="txtPinned" HorizontalAlignment="Center" TextWrapping="Wrap" Text="no pinned apps" VerticalAlignment="Center" FontSize="33.333" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,50" Foreground="#FF838383" >
+            <Grid DataContext="{Binding Source={StaticResource LocalCacheHelper},Path=PinnedApps}">
+                <TextBlock Visibility="{Binding Count, Converter={StaticResource VisibilityConverter},UpdateSourceTrigger=PropertyChanged}"  Name="txtPinned" HorizontalAlignment="Center" TextWrapping="Wrap" Text="no pinned apps" VerticalAlignment="Center" FontSize="33.333" FontWeight="Medium" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,50" Foreground="#FF838383" >
                     <TextBlock.RenderTransform>
                         <CompositeTransform Rotation="-30"/>
                     </TextBlock.RenderTransform>
