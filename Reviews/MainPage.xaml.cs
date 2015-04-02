@@ -61,5 +61,13 @@ namespace Reviews
             var frame = Window.Current.Content as Frame;
             if (frame != null) frame.Navigate(typeof(SearchPage));
         }
+
+        private void RecentLst_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var entry = e.ClickedItem as Entry;
+            LocalCacheHelper.AddRecentApp(entry);
+            var frame = Window.Current.Content as Frame;
+            if (frame != null && entry != null) frame.Navigate(typeof(AppDetailsPage), entry.Id);
+        }
     }
 }

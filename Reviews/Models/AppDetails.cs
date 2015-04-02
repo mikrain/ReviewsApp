@@ -32,6 +32,12 @@ namespace Reviews
         [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.w3.org/2005/Atom", ElementName = "content")]
         public string Content { get; set; }
 
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://schemas.zune.net/catalog/apps/2008/02", ElementName = "image")]
+        public ImageApp Image { get; set; }
+
+
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://schemas.zune.net/catalog/apps/2008/02", ElementName = "screenshots")]
+        public ScreenShotDeatils ScreenShots { get; set; }
 
         [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.w3.org/2005/Atom", ElementName = "entry")]
         public EntryDetails Entry { get; set; }
@@ -64,5 +70,11 @@ namespace Reviews
             ElementName = "url")]
         public string Url { get; set; }
 
+    }
+
+    public class ScreenShotDeatils
+    {
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://schemas.zune.net/catalog/apps/2008/02", ElementName = "screenshot")]
+        public List<ImageApp> ScreenShot { get; set; }
     }
 }

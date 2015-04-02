@@ -69,9 +69,13 @@ namespace Reviews.Common
 
         internal static void AddRecentApp(Entry entry)
         {
-            if (_recentApps.Count > 5) _recentApps.RemoveAt(_recentApps.Count - 1);
-            _recentApps.Insert(0, entry);
-            SaveRecent();
+            if (_recentApps.FirstOrDefault(entry1 => entry1.Title == entry.Title) == null)
+            {
+                if (_recentApps.Count > 5) _recentApps.RemoveAt(_recentApps.Count - 1);
+                _recentApps.Insert(0, entry);
+                SaveRecent();
+            }
+
         }
 
         internal static void AddPinnedApp(Entry entry)

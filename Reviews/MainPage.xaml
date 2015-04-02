@@ -25,7 +25,9 @@
                         <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Image.Url}"/>
                     </Border.Background>
                     <Border VerticalAlignment="Bottom" Margin="0" Background="#6E000000" Padding="5,0" CornerRadius="1">
-                        <TextBlock Text="{Binding Title}" FontSize="20" Foreground="#FFE2E2E2" TextTrimming="CharacterEllipsis" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Vertical">
+                    		<TextBlock Text="{Binding Title}" FontSize="20" Foreground="#FFE2E2E2" TextTrimming="CharacterEllipsis" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe WP" TextWrapping="Wrap"/>
+                    	</StackPanel>
                     </Border>
                 </Border>
             </Grid>
@@ -43,7 +45,7 @@
                         <CompositeTransform Rotation="-30"/>
                     </TextBlock.RenderTransform>
                 </TextBlock>
-                <ListView ItemsSource="{Binding}" x:Name="RecentLst" ItemTemplate="{StaticResource RecentAppTemplate}" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None" MinHeight="25" HorizontalContentAlignment="Left">
+                <ListView  ItemsSource="{Binding}" x:Name="RecentLst" ItemTemplate="{StaticResource RecentAppTemplate}" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None" MinHeight="25" HorizontalContentAlignment="Left" ItemClick="RecentLst_OnItemClick" IsItemClickEnabled="True">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal"/>
@@ -64,7 +66,7 @@
                         <CompositeTransform Rotation="-30"/>
                     </TextBlock.RenderTransform>
                 </TextBlock>
-                <ListView ItemsSource="{Binding}" x:Name="PinnedLst" ItemTemplate="{StaticResource RecentAppTemplate}" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None" MinHeight="25">
+                <ListView ItemsSource="{Binding}" x:Name="PinnedLst" ItemTemplate="{StaticResource RecentAppTemplate}" VerticalContentAlignment="Stretch" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsSwipeEnabled="False" IsZoomedInView="False" IsTapEnabled="False" SelectionMode="None" MinHeight="25" ItemClick="RecentLst_OnItemClick" IsItemClickEnabled="True">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid MaximumRowsOrColumns="3" Orientation="Horizontal"/>
