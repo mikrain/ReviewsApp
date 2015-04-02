@@ -36,7 +36,7 @@ namespace Reviews
 
         public double AverageUserRatingNubmer
         {
-            get { return Math.Round(double.Parse(AverageUserRating)/2, 1); }
+            get { return Math.Round(double.Parse(AverageUserRating) / 2, 1); }
         }
 
         public string UpdatedFormatted
@@ -65,13 +65,12 @@ namespace Reviews
 
     public class ImageApp
     {
-        private string _id;
-
         [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://schemas.zune.net/catalog/apps/2008/02", ElementName = "id")]
-        public string Id
+        public string Id { get; set; }
+
+        public string Url
         {
-            get { return string.Format("http://cdn.marketplaceimages.windowsphone.com/v8/images/{0}?imageType=ws_icon_small", _id.Replace("urn:uuid:", "")); }
-            set { _id = value; }
+            get { return string.Format("http://cdn.marketplaceimages.windowsphone.com/v8/images/{0}?imageType=ws_icon_small", Id.Replace("urn:uuid:", "")); ; }
         }
     }
 }

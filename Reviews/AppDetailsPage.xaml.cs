@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -43,22 +44,31 @@ namespace Reviews
         /// This parameter is typically used to configure the page.</param>
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             await StatusBar.GetForCurrentView().HideAsync();
             if (e.Parameter != null) GetAppDetails(e.Parameter.ToString());
-            base.OnNavigatedTo(e);
         }
 
-        private async void GetAppDetails(string appId)
+        private  void GetAppDetails(string appId)
         {
-            HttpClient client = new HttpClient();
-            var asf = await client.GetStringAsync(
-                        string.Format("http://marketplaceedgeservice.windowsphone.com/v9/catalog/apps/{0}?os=8.10.14219.0&cc=US&lang=en-US&hw=520190979&dm=RM-821_apac_hong_kong_234&oemId=NOKIA&moId=&cf=99-1", appId));
-            var doc = XDocument.Parse(asf);
-            XmlSerializer serializer = new XmlSerializer(typeof(AppDetails));
-            var feed = (AppDetails)serializer.Deserialize(doc.CreateReader());
-
-
-            await GetReviews(appId, feed.Entry.SkuId);
+             Task.Run(async () =>
+                {
+                    try
+                    {
+                        HttpClient client = new HttpClient();
+                        var asf = await client.GetStringAsync(
+                                    string.Format("http://marketplaceedgeservice.windowsphone.com/v9/catalog/apps/{0}?os=8.10.14219.0&cc=US&lang=en-US&hw=520190979&dm=RM-821_apac_hong_kong_234&oemId=NOKIA&moId=&cf=99-1", appId));
+                        var doc = XDocument.Parse(asf);
+                        XmlSerializer serializer = new XmlSerializer(typeof(AppDetails));
+                        var feed = (AppDetails)serializer.Deserialize(doc.CreateReader());
+                        await GetReviews(appId, feed.Entry.SkuId);
+                    }
+                    catch (Exception)
+                    {
+                       
+                    }
+                   
+                });
         }
 
         private async Task GetReviews(string appId, string skuId)
@@ -87,7 +97,13 @@ namespace Reviews
             }
 
             await Task.WhenAll(tasks);
-            lstComments.ItemsSource = comments.OrderByDescending(entry => entry.Updated);
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                prgBar.Visibility = Visibility.Collapsed;
+                lstComments.ItemsSource = comments.OrderByDescending(entry => entry.Updated);
+            });
+
         }
 
         protected override void NavigationHelper_LoadState(object sender, CinelabWP8_1.Common.LoadStateEventArgs e)

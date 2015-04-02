@@ -20,7 +20,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image.Id}" Stretch="None"/>
+                        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Image.Url}" Stretch="None"/>
                         <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0">
                             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap"  VerticalAlignment="Center" Foreground="#FF3E3E3E" FontSize="16" Margin="10,0,0,0">
                                 <Run Text="User Rating Count: "></Run>

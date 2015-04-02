@@ -1,25 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Windows.ApplicationModel.Store;
-using Windows.Devices.Enumeration;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Reviews.Common;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -56,6 +40,20 @@ namespace Reviews
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await StatusBar.GetForCurrentView().HideAsync();
+            GetPinnedLists();
+            GetRecentLists();
+        }
+
+        private async void GetPinnedLists()
+        {
+            
+          //  PinnedSection.DataContext =await LocalCacheHelper.OpenPinned();
+        }
+
+        private async void GetRecentLists()
+        {
+            var list= await LocalCacheHelper.OpenRecent();
+            RecentSection.DataContext = list;
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

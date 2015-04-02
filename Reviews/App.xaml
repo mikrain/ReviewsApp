@@ -2,6 +2,11 @@
     x:Class="Reviews.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Reviews">
+    xmlns:local="using:Reviews"
+    xmlns:common="using:Reviews.Common">
+
+    <Application.Resources>
+        <common:VisibilityConverter x:Key="VisibilityConverter"/>
+    </Application.Resources>
 
 </Application>
