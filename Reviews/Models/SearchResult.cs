@@ -71,6 +71,10 @@ namespace Reviews
         public string Url
         {
             get { return string.Format("http://cdn.marketplaceimages.windowsphone.com/v8/images/{0}?imageType=ws_icon_small", Id.Replace("urn:uuid:", "")); ; }
+        } 
+        public string BigUrl
+        {
+            get { return string.Format("http://cdn.marketplaceimages.windowsphone.com/v8/images/{0}?imageType=ws_icon_big", Id.Replace("urn:uuid:", "")); ; }
         }
     }
 }

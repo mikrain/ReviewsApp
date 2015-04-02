@@ -63,6 +63,7 @@ namespace Reviews
                        var feed = (AppDetails)serializer.Deserialize(doc.CreateReader());
                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                        {
+                           CheckPin(feed.Title);
                            DetailsPivot.DataContext = feed;
                            rootPivot.Title = feed.Title;
                        });
@@ -74,6 +75,20 @@ namespace Reviews
                    }
 
                });
+        }
+
+        private void CheckPin(string title)
+        {
+            if (LocalCacheHelper.PinnedApps.FirstOrDefault(entry => entry.Title == title) == null)
+            {
+                PinPanel.Visibility = Visibility.Visible;
+                UnpinPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                UnpinPanel.Visibility = Visibility.Visible;
+                PinPanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void GetReviews(string appId, string skuId)
@@ -124,6 +139,21 @@ namespace Reviews
         protected override bool ChildAllowedToExit(Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             return false;
+        }
+
+        private void pinClick(object sender, RoutedEventArgs e)
+        {
+            var entry1Context = DetailsPivot.DataContext as AppDetails;
+            LocalCacheHelper.AddPinnedApp(new Entry() { Id = entry1Context.Id, Image = entry1Context.Image, Title = entry1Context.Title });
+            CheckPin(entry1Context.Title);
+        }
+
+        private void UnPInClick(object sender, RoutedEventArgs e)
+        {
+            var entry1Context = DetailsPivot.DataContext as AppDetails;
+            var entryToRemove = LocalCacheHelper.PinnedApps.FirstOrDefault(entry => entry.Title == entry1Context.Title);
+            LocalCacheHelper.RemovePinnedApp(entryToRemove);
+            CheckPin(entryToRemove.Title);
         }
     }
 }

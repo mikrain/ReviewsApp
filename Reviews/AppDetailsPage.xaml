@@ -511,7 +511,7 @@
         </DataTemplate>
         <DataTemplate x:Key="ScreenShot">
             <Grid>
-                <Image Height="180" Width="100" Source="{Binding Image.Url}" Margin="0,0,10,0"/>
+                <Image Source="{Binding BigUrl}" Margin="0,0,0,10" Stretch="UniformToFill"/>
             </Grid>
         </DataTemplate>
 
@@ -522,28 +522,30 @@
         <Pivot Name="rootPivot"  Title="" HeaderTemplate="{StaticResource HeaderTemplate}" TitleTemplate="{StaticResource TitleTemplate}" Style="{StaticResource PivotStyle1}" VerticalContentAlignment="Stretch">
             <PivotItem Name="DetailsPivot" Header="details" FontFamily="Segoe WP">
                 <Grid>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                        <Grid VerticalAlignment="Top" Margin="0,0,-0.333,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Image HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="None" Width="130" Height="130" Source="{Binding Image.Url}"/>
-                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Grid.Column="1" Foreground="Black" FontSize="18.667" TextAlignment="Justify" LineHeight="9.333" CharacterSpacing="2" Padding="5,0" MaxLines="6" TextTrimming="WordEllipsis"/>
-                        </Grid>
-                        <ListView ItemsSource="{Binding ScreenShots.ScreenShot}" Height="210" SelectionMode="None" HorizontalContentAlignment="Center" HorizontalAlignment="Center" ItemTemplate="{StaticResource ScreenShot}" Margin="0,10,0,0" VerticalContentAlignment="Center">
-                        	<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
-                        	<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
-                        	<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"></StackPanel>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
+                    <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Hidden">
+                		<StackPanel Orientation="Vertical">
+                			<Grid VerticalAlignment="Top" Margin="0,0,-0.333,0">
+                				<Grid.ColumnDefinitions>
+                					<ColumnDefinition Width="Auto"/>
+                					<ColumnDefinition/>
+                				</Grid.ColumnDefinitions>
+                				<Image HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="None" Width="130" Height="130" Source="{Binding Image.Url}"/>
+                				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Content}" VerticalAlignment="Top" Grid.Column="1" Foreground="Black" FontSize="18.667" TextAlignment="Justify" LineHeight="9.333" CharacterSpacing="2" Padding="5,0" MaxLines="6" TextTrimming="WordEllipsis"/>
+                			</Grid>
+                			<ListView ItemsSource="{Binding ScreenShots.ScreenShot}" SelectionMode="None" HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource ScreenShot}" Margin="0,10" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                				<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
+                				<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
+                				<ListViewItem ContentTemplate="{StaticResource ScreenShot}"/>
+                			</ListView>
                         
-                    </StackPanel>
-                    <Button Content="Pin To Start" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource ButtonStyle1}"/>
+                		</StackPanel>
+                	</ScrollViewer>
+                    <Border Visibility="Collapsed" x:Name="PinPanel" VerticalAlignment="Bottom" Padding="0,5,0,0" Background="#B2000000" CornerRadius="5" Margin="0,0,0,5" >
+                    	<Button Click="pinClick" Content="Pin To Start" Style="{StaticResource ButtonStyle1}" HorizontalAlignment="Center" MinWidth="0" MinHeight="0"/>
+                    </Border>
+                    <Border Visibility="Collapsed" x:Name="UnpinPanel" VerticalAlignment="Bottom" Padding="0,5,0,0" Background="#B2000000" CornerRadius="5" Margin="0,0,0,4.667" >
+                    	<Button Content="Unpin From Start" Click="UnPInClick" Style="{StaticResource ButtonStyle1}" HorizontalAlignment="Center" MinWidth="0" MinHeight="0"/>
+                    </Border>
                 </Grid>
             </PivotItem>
             <PivotItem Header="reviews">

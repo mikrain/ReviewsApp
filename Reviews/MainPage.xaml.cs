@@ -46,8 +46,7 @@ namespace Reviews
 
         private async void GetPinnedLists()
         {
-            
-          //  PinnedSection.DataContext =await LocalCacheHelper.OpenPinned();
+            await LocalCacheHelper.OpenPinned();
         }
 
         private async void GetRecentLists()
