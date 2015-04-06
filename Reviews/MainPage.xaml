@@ -82,7 +82,7 @@
 
     </Page.Resources>
     <Page.BottomAppBar>
-        <CommandBar IsRightTapEnabled="False" Background="#FF838383" Foreground="Black">
+        <CommandBar Name="bar" IsRightTapEnabled="False" Background="#FF838383" Foreground="Black">
             <AppBarButton Click="ButtonBase_OnClick" Icon="Find" Label="Search app"/>
         </CommandBar>
     </Page.BottomAppBar>
@@ -97,5 +97,9 @@
 
             </HubSection>
         </Hub>
+        <Grid x:Name="BuyPanle" Background="#FFBFBFBF" Visibility="Collapsed">
+        	<TextBlock TextWrapping="Wrap" Text="Please buy a full version :)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Segoe UI" FontStyle="Italic"/>
+        	<Button Content="Buy" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="Button_Click"/>
+        </Grid>
     </Grid>
 </Page>

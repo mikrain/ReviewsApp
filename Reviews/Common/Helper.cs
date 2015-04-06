@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace Reviews.Common
 {
@@ -36,6 +38,19 @@ namespace Reviews.Common
         private static async void SaveRecent()
         {
             await SaveProject(RECENT, _recentApps.ToList(), CreationCollisionOption.ReplaceExisting);
+        }
+
+        public static bool IsConnectedToInternet()
+        {
+            ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            var result= (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+            if (result)
+            {
+                return true;
+            }
+            var dialog = new MessageDialog("It seems that you don't have internet access...");
+            dialog.ShowAsync();
+            return false;
         }
 
         public async static Task<ObservableCollection<Entry>> OpenRecent()

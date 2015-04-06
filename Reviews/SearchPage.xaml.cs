@@ -40,42 +40,45 @@ namespace Reviews
 
         private void TxtSuggestion_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            lstItems.ItemsSource = null;
-          var text=  txtSuggestion.Text;
-            Task.Run(async () =>
+            if (LocalCacheHelper.IsConnectedToInternet())
             {
-               
-                if (!string.IsNullOrEmpty(text))
+
+                lstItems.ItemsSource = null;
+                var text = txtSuggestion.Text;
+                Task.Run(async () =>
                 {
-                    try
-                    { 
-                        _client.CancelPendingRequests();
-                        var asf = await _client.GetStringAsync(
-                            string.Format(
-                                "http://cdn.marketplaceedgeservice.windowsphone.com/v8/catalog/queries?os=8.10.14219.0&zLocale=EN-CA&cc=US&lang=en-US&prefix={0}&chunksize=4&includeApplications=true&includeAlbums=fal",
-                                text));
-                        var doc = XDocument.Parse(asf);
-                        XmlSerializer serializer = new XmlSerializer(typeof(QueryResult));
-                        var feed = (QueryResult)serializer.Deserialize(doc.CreateReader());
+
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        try
+                        {
+                            _client.CancelPendingRequests();
+                            var asf = await _client.GetStringAsync(
+                                string.Format(
+                                    "http://cdn.marketplaceedgeservice.windowsphone.com/v8/catalog/queries?os=8.10.14219.0&zLocale=EN-CA&cc=US&lang=en-US&prefix={0}&chunksize=4&includeApplications=true&includeAlbums=fal",
+                                    text));
+                            var doc = XDocument.Parse(asf);
+                            XmlSerializer serializer = new XmlSerializer(typeof (QueryResult));
+                            var feed = (QueryResult) serializer.Deserialize(doc.CreateReader());
+                            Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                                () => txtSuggestion.ItemsSource = feed.Entry.Select(entry => entry.Title));
+                        }
+                        catch (TaskCanceledException)
+                        {
+
+                        }
+                        catch
+                        {
+                        }
+                    }
+                    else
+                    {
                         Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            () => txtSuggestion.ItemsSource = feed.Entry.Select(entry => entry.Title));
-                    }
-                    catch (TaskCanceledException)
-                    {
-
-                    }
-                    catch
-                    {
-                    }
-                }
-                else
-                {
-                   Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                             () => txtSuggestion.ItemsSource = null);
-                }
+                    }
 
-            });
-
+                });
+            }
         }
 
         private void TxtSuggestion_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -85,25 +88,27 @@ namespace Reviews
 
         private async void Find(string word)
         {
-            try
+            if (LocalCacheHelper.IsConnectedToInternet())
             {
-                HttpClient client = new HttpClient();
-                txtSuggestion.IsSuggestionListOpen = false;
-                var asf = await client.GetStringAsync(
-                    string.Format(
-                        "http://marketplaceedgeservice.windowsphone.com/v9/catalog/apps?os=8.10.14219.0&cc=US&lang=en-US&hw=520190979&dm=RM-821_apac_hong_kong_234&oemId=NOKIA&moId=&chunkSize=50&q={0}&cf=99-1",
-                        word));
-                var doc = XDocument.Parse(asf);
-                XmlSerializer serializer = new XmlSerializer(typeof(SearchResult));
-                var feed = (SearchResult)serializer.Deserialize(doc.CreateReader());
-                lstItems.ItemsSource = feed.Entry;
-                lstItems.Focus(FocusState.Programmatic);
+                try
+                {
+                    HttpClient client = new HttpClient();
+                    txtSuggestion.IsSuggestionListOpen = false;
+                    var asf = await client.GetStringAsync(
+                        string.Format(
+                            "http://marketplaceedgeservice.windowsphone.com/v9/catalog/apps?os=8.10.14219.0&cc=US&lang=en-US&hw=520190979&dm=RM-821_apac_hong_kong_234&oemId=NOKIA&moId=&chunkSize=50&q={0}&cf=99-1",
+                            word));
+                    var doc = XDocument.Parse(asf);
+                    XmlSerializer serializer = new XmlSerializer(typeof (SearchResult));
+                    var feed = (SearchResult) serializer.Deserialize(doc.CreateReader());
+                    lstItems.ItemsSource = feed.Entry;
+                    lstItems.Focus(FocusState.Programmatic);
+                }
+                catch (Exception)
+                {
+
+                }
             }
-            catch (Exception)
-            {
-               
-            }
-          
         }
 
         private void TxtSuggestion_OnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -117,10 +122,13 @@ namespace Reviews
 
         private void LstItems_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var entry = e.ClickedItem as Entry;
-            LocalCacheHelper.AddRecentApp(entry);
-            var frame = Window.Current.Content as Frame;
-            if (frame != null && entry != null) frame.Navigate(typeof(AppDetailsPage), entry.Id);
+            if (LocalCacheHelper.IsConnectedToInternet())
+            {
+                var entry = e.ClickedItem as Entry;
+                LocalCacheHelper.AddRecentApp(entry);
+                var frame = Window.Current.Content as Frame;
+                if (frame != null && entry != null) frame.Navigate(typeof (AppDetailsPage), entry.Id);
+            }
         }
 
         protected override void NavigationHelper_LoadState(object sender, CinelabWP8_1.Common.LoadStateEventArgs e)

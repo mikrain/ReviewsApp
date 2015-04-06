@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Store;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,8 +41,32 @@ namespace Reviews
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await StatusBar.GetForCurrentView().HideAsync();
-            GetPinnedLists();
-            GetRecentLists();
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                var licenseInformation = CurrentApp.LicenseInformation;
+                if (licenseInformation.IsTrial)
+                {
+                    var longDateFormat = new Windows.Globalization.DateTimeFormatting.DateTimeFormatter("longdate");
+
+                    // Display the expiration date using the DateTimeFormatter. 
+                    // For example, longDateFormat.Format(licenseInformation.ExpirationDate)
+
+                    var daysRemaining = (licenseInformation.ExpirationDate - DateTime.Now).Days;
+                    if (daysRemaining <= 0)
+                    {
+                        BuyPanle.Visibility = Visibility.Visible;
+                        bar.Visibility = Visibility.Collapsed;
+                      
+                    }
+                }
+                else
+                {
+                    BuyPanle.Visibility = Visibility.Collapsed;
+                    bar.Visibility = Visibility.Visible;
+                    GetPinnedLists();
+                    GetRecentLists();
+                }
+            }
         }
 
         private async void GetPinnedLists()
@@ -57,16 +82,28 @@ namespace Reviews
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var frame = Window.Current.Content as Frame;
-            if (frame != null) frame.Navigate(typeof(SearchPage));
+            if (LocalCacheHelper.IsConnectedToInternet())
+            {
+                var frame = Window.Current.Content as Frame;
+                if (frame != null) frame.Navigate(typeof(SearchPage));
+            }
+
         }
 
         private void RecentLst_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            var entry = e.ClickedItem as Entry;
-            LocalCacheHelper.AddRecentApp(entry);
-            var frame = Window.Current.Content as Frame;
-            if (frame != null && entry != null) frame.Navigate(typeof(AppDetailsPage), entry.Id);
+            if (LocalCacheHelper.IsConnectedToInternet())
+            {
+                var entry = e.ClickedItem as Entry;
+                LocalCacheHelper.AddRecentApp(entry);
+                var frame = Window.Current.Content as Frame;
+                if (frame != null && entry != null) frame.Navigate(typeof(AppDetailsPage), entry.Id);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.ApplicationModel.Store.CurrentApp.RequestAppPurchaseAsync(false);
         }
     }
 }
